@@ -13,10 +13,33 @@
       />
       <select v-model="type" class="w-80 p-2 border border-gray-300 rounded-md">
         <option disabled value="">Select a type</option>
-        <option>Sweater</option>
-        <option>Jacket</option>
         <option>Pants</option>
+        <option>Shirts</option>
+        <option>Hoodies / Sweatshirt</option>
       </select>
+
+      <!-- Gender Radio Buttons -->
+      <div class="flex gap-4 items-center">
+        <label class="flex items-center gap-2">
+          <input
+            type="radio"
+            v-model="gender"
+            value="Men"
+            class="accent-blue-500"
+          />
+          <span>Men</span>
+        </label>
+        <label class="flex items-center gap-2">
+          <input
+            type="radio"
+            v-model="gender"
+            value="Women"
+            class="accent-pink-500"
+          />
+          <span>Women</span>
+        </label>
+      </div>
+
       <button
         type="submit"
         class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
@@ -40,11 +63,13 @@
   </div>
 </template>
 
+
 <script lang="ts" setup>
 import { defineComponent, ref } from "vue";
 
 const query = ref<string>("");
 const type = ref<string>("");
+const gender = ref<string>(""); // New state for gender
 
 const results = ref<string[]>([]);
 
@@ -55,7 +80,11 @@ const handleSearch = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query: query.value, type: type.value }),
+      body: JSON.stringify({
+        query: query.value,
+        type: type.value,
+        gender: gender.value,
+      }),
     });
     const data = await response.json();
     results.value = data.results;

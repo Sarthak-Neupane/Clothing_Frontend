@@ -1070,22 +1070,62 @@ const errorDev = /*#__PURE__*/Object.freeze({
 
 const search = defineEventHandler(async (event) => {
   const body = await readBody(event);
-  const { query, type } = body;
-  const results = await searchProducts(query, type);
-  return {
-    results
-  };
+  const { query, type, gender } = body;
+  const results = await searchProducts(query, type, gender);
+  return { results };
 });
-async function searchProducts(q, t) {
+const formatGender = (gender) => {
+  const genders = {
+    Men: "men",
+    Women: "ladies"
+  };
+  return genders[gender] || "";
+};
+const formatType = (type) => {
+  const types = {
+    Shirts: "shirts",
+    Pants: "trousers",
+    "Hoodies / Sweatshirt": "hoodies-sweatshirts"
+  };
+  return types[type] || "";
+};
+const selectPageId = (type, gender) => {
+  var _a;
+  const pageIds = {
+    Men: {
+      Shirts: "men_shirts",
+      Pants: "men_trousers",
+      "Hoodies / Sweatshirt": "men_hoodiessweatshirts"
+    },
+    Women: {
+      Shirts: "ladies_shirtsblouses",
+      Pants: "ladies_trousers",
+      "Hoodies / Sweatshirt": "ladies_hoodiessweatshirts"
+    }
+  };
+  return ((_a = pageIds[gender]) == null ? void 0 : _a[type]) || "";
+};
+async function searchProducts(query, type, gender) {
+  const pageId = selectPageId(type, gender);
+  const genderFormatted = formatGender(gender);
+  const typeFormatted = formatType(type);
+  if (!pageId || !genderFormatted || !typeFormatted) {
+    throw new Error("Invalid parameters for product search");
+  }
   const response = await fetch(`http://localhost:8080/search`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ Id: q, Name: t })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      page: "1",
+      pageId: `/${genderFormatted}/shop-by-product/${typeFormatted}`,
+      PageSize: "36",
+      CategoryId: `/${pageId}`
+    })
   });
-  const result = await response.json();
-  return result;
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+  return response.json();
 }
 
 const search$1 = /*#__PURE__*/Object.freeze({
