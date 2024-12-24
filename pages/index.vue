@@ -59,6 +59,7 @@ const handleSearch = async () => {
     });
     const data = await response.json();
     results.value = data.results;
+    console.log(data);
   } catch (error) {
     console.error(error);
   }

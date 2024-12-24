@@ -125,7 +125,6 @@
   ],
   "exclude": [
     "../node_modules",
-    "../../../../../node_modules",
     "../node_modules/nuxt/node_modules",
     "../../../../../AppData/Roaming/npm/node_modules/@nuxt/devtools/node_modules",
     "../dist"
