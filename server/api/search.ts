@@ -2,12 +2,23 @@ export default defineEventHandler(async event => {
   const body = await readBody(event)
   const { query, type } = body
 
-  console.log(`Searching for ${type} with query: ${query}`)
+  const results = await searchProducts(query, type)
 
   return {
-    results: [
-      { id: 1, name: 'Product 1' },
-      { id: 2, name: 'Product 2' }
-    ]
+    results
   }
 })
+
+async function searchProducts(q: string, t: string) {
+  const response = await fetch(`http://localhost:8080/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ Id: q, Name: t })
+  })
+  const result = await response.json()
+  return result
+}
+
+
