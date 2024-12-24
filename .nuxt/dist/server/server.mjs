@@ -1,0 +1,1 @@
+export { default } from "file:///C:/Users/Nitro/Desktop/Winter/AI%20Clothing/frontend/node_modules/@nuxt/vite-builder/dist/runtime/vite-node.mjs"
