@@ -15,9 +15,9 @@ const formatGender = (gender: string): string => {
   return genders[gender] || '';
 };
 
-const formatType = (type: string): string => {
+const formatType = (gender: string, type: string): string => {
   const types: { [key: string]: string } = {
-    Shirts: 'shirts',
+    Shirts: gender === 'Men' ? 'shirts' : 'shirts-and-blouses',
     Pants: 'trousers',
     'Hoodies / Sweatshirt': 'hoodies-sweatshirts',
   };
@@ -44,7 +44,7 @@ const selectPageId = (type: string, gender: string): string => {
 async function searchProducts(query: string, type: string, gender: string) {
   const pageId = selectPageId(type, gender);
   const genderFormatted = formatGender(gender);
-  const typeFormatted = formatType(type);
+  const typeFormatted = formatType(gender, type);
 
   if (!pageId || !genderFormatted || !typeFormatted) {
     throw new Error('Invalid parameters for product search');

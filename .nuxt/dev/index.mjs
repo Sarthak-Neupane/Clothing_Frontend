@@ -1081,9 +1081,9 @@ const formatGender = (gender) => {
   };
   return genders[gender] || "";
 };
-const formatType = (type) => {
+const formatType = (gender, type) => {
   const types = {
-    Shirts: "shirts",
+    Shirts: gender === "Men" ? "shirts" : "shirts-and-blouses",
     Pants: "trousers",
     "Hoodies / Sweatshirt": "hoodies-sweatshirts"
   };
@@ -1108,7 +1108,7 @@ const selectPageId = (type, gender) => {
 async function searchProducts(query, type, gender) {
   const pageId = selectPageId(type, gender);
   const genderFormatted = formatGender(gender);
-  const typeFormatted = formatType(type);
+  const typeFormatted = formatType(gender, type);
   if (!pageId || !genderFormatted || !typeFormatted) {
     throw new Error("Invalid parameters for product search");
   }
