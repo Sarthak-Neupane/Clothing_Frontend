@@ -58,6 +58,7 @@ async function searchProducts(query: string, type: string, gender: string) {
       pageId: `/${genderFormatted}/shop-by-product/${typeFormatted}`,
       PageSize: '36',
       CategoryId: `/${pageId}`,
+      query,
     }),
   });
 

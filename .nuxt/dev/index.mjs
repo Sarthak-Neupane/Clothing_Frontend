@@ -1119,7 +1119,8 @@ async function searchProducts(query, type, gender) {
       page: "1",
       pageId: `/${genderFormatted}/shop-by-product/${typeFormatted}`,
       PageSize: "36",
-      CategoryId: `/${pageId}`
+      CategoryId: `/${pageId}`,
+      query
     })
   });
   if (!response.ok) {
